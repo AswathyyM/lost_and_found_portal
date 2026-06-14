@@ -45,6 +45,54 @@ The original poster can view who claimed the item.
 | Deployment     | Render      | Django Hosting         |
 
 ---
+# 🚀 Installation
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/AswathyyM/lost_and_found_portal.git
+```
+
+---
+
+## 2. Navigate to Project Folder
+
+```bash
+cd lost_and_found_portal
+```
+
+---
+
+## 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 4. Run Database Migrations
+
+```bash
+python manage.py migrate
+```
+
+---
+
+## 5. Start Development Server
+
+```bash
+python manage.py runserver
+```
+
+---
+
+## 6. Open in Browser
+
+```text
+http://127.0.0.1:8000/
+```
+---
 
 # 📂 Project Structure
 
