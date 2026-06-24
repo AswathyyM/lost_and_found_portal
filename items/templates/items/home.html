@@ -64,6 +64,24 @@
             border-radius:5px;
         }
 
+        .edit{
+background:#0d6efd;
+color:white;
+padding:8px 14px;
+text-decoration:none;
+border-radius:5px;
+margin-left:6px;
+}
+
+.delete{
+background:#dc3545;
+color:white;
+padding:8px 14px;
+text-decoration:none;
+border-radius:5px;
+margin-left:6px;
+}
+
         .claimed{
             color:red;
         }
@@ -124,6 +142,11 @@
 <p>Claimed By:
 {{item.claimed_by.username}}</p>
 <a class="claim" href="/claim/{{item.id}}">Claim Item</a>
+{% endif %}
+
+{% if item.owner == user %}
+<a class="edit" href="/edit/{{item.id}}/">Edit</a>
+<a class="delete" href="/delete/{{item.id}}/">Delete</a>
 {% endif %}
 
 </div>
