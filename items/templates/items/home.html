@@ -90,6 +90,27 @@
             background:#198754;
             color:white;
         }
+
+        /* Styling for the empty state container */
+.no-items-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 40px 20px;
+    text-align: center;
+    background-color: #f9fafb;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+/* Text styling for the message */
+.no-items-text {
+    font-size: 1.25rem;
+    color: #64748b;
+    font-weight: 500;
+    margin: 0;
+}
     </style>
 
 </head>
@@ -107,7 +128,6 @@
 </div>
 
 {% for item in items %}
-
 <div class="card">
 
 <img src="{{item.image.url}}" width="220">
@@ -126,6 +146,12 @@
 <a class="claim" href="/claim/{{item.id}}">Claim Item</a>
 {% endif %}
 
+</div>
+
+{% empty %}
+
+<div class="no-items-container">
+    <p class="no-items-text">No lost/found items available</p>
 </div>
 
 {% endfor %}
