@@ -1,0 +1,9 @@
+db.sqlite3
+PROJECT_CODE_GUIDE.md
+
+.venv/
+__pycache__/
+*.py[cod]
+
+media/
+staticfiles/
