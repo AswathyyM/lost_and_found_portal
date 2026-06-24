@@ -68,11 +68,25 @@
             color:red;
         }
 
-        footer{
-            text-align:center;
-            padding:15px;
-            background:#e9ecef;
-        }
+        .site-footer {
+    background-color: #1f2937; /* Clean, dark background */
+    color: #ffffff;            /* White text */
+    text-align: center;
+    padding: 20px 10px;
+    margin-top: 40px;          /* Pushes it away from the content above */
+    width: 100%;
+}
+
+.footer-content .college-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.footer-content .copyright {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
         .login-btn, .signup-btn{
             display:inline-block;
             margin-left:10px;
@@ -130,8 +144,13 @@
 
 {% endfor %}
 
-<footer>
-CEC Lost And Found Portal
+
+<!-- Footer Section -->
+<footer class="site-footer">
+    <div class="footer-content">
+        <p class="college-name">College of Engineering Chengannur</p>
+        <p class="copyright">&copy; 2026 CEC Lost & Found. All Rights Reserved.</p>
+    </div>
 </footer>
 
 </body>
