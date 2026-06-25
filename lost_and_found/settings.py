@@ -10,10 +10,34 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+
+def load_env_file(env_path):
+    if not env_path.exists():
+        return
+
+    for line in env_path.read_text().splitlines():
+        line = line.strip()
+
+        if not line or line.startswith('#') or '=' not in line:
+            continue
+
+        key, value = line.split('=', 1)
+        os.environ.setdefault(
+            key.strip(),
+            value.strip().strip('"').strip("'")
+        )
+
+
+def env_bool(name, default):
+    return os.environ.get(name, default).lower() == 'true'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_env_file(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -133,3 +157,14 @@ LOGIN_URL='/signup/'
 LOGIN_REDIRECT_URL='/'
 ALLOWED_HOSTS = ['*']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_USE_TLS = env_bool('EMAIL_USE_TLS', 'true')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get(
+    'DEFAULT_FROM_EMAIL',
+    EMAIL_HOST_USER
+) or EMAIL_HOST_USER or 'noreply@cec-lost-found.local'
