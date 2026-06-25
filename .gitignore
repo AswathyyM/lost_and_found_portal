@@ -1,6 +1,10 @@
 __pycache__/
 *.pyc
+*.py[cod]
 db.sqlite3
+.venv/
 media/
+staticfiles/
 .ipynb_checkpoints/
 .DS_Store
+PROJECT_CODE_GUIDE.md

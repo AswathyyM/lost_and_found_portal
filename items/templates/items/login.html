@@ -1,84 +1,297 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login · Lost & Found</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:#f4f6f9;
-}
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-.container{
-    width:350px;
-    margin:80px auto;
-    background:white;
-    padding:35px;
-    border-radius:12px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.15);
-}
+  :root {
+    --ink:      #0d0f1c;
+    --indigo:   #4338ca;
+    --indigo-d: #3730a3;
+    --amber:    #f59e0b;
+    --amber-l:  #fef3c7;
+    --slate:    #64748b;
+    --border:   #e2e8f0;
+    --surface:  #ffffff;
+    --bg:       #f1f5f9;
+  }
 
-h1{
-    text-align:center;
-    color:#0d6efd;
-}
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(67,56,202,0.08) 0%, transparent 55%),
+      radial-gradient(circle at 80% 80%, rgba(245,158,11,0.07) 0%, transparent 55%);
+  }
 
-input{
-    width:100%;
-    padding:10px;
-    margin-top:8px;
-    margin-bottom:15px;
-    border:1px solid #ccc;
-    border-radius:6px;
-}
+  .card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--surface);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,0.06),
+      0 8px 24px rgba(0,0,0,0.08),
+      0 32px 64px rgba(0,0,0,0.06);
+  }
 
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    background:#0d6efd;
-    color:white;
-    border-radius:6px;
-    font-size:16px;
-}
+  .card-header {
+    background: linear-gradient(135deg, var(--indigo) 0%, #312e81 100%);
+    padding: 36px 40px 32px;
+    position: relative;
+    overflow: hidden;
+  }
 
-a{
-    color:#198754;
-    text-decoration:none;
-}
+  .card-header::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
 
-.bottom{
-    text-align:center;
-}
+  .card-header::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    right: 20px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(245,158,11,0.18);
+    border: 1px solid rgba(245,158,11,0.35);
+    color: var(--amber);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 14px;
+  }
+
+  .badge svg {
+    width: 11px;
+    height: 11px;
+    fill: var(--amber);
+  }
+
+  .card-header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+    letter-spacing: -0.4px;
+  }
+
+  .card-header p {
+    margin-top: 6px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 400;
+  }
+
+  .card-body {
+    padding: 36px 40px 32px;
+  }
+
+  form p {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+  }
+
+  form p label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+    letter-spacing: 0.01em;
+  }
+
+  form p input {
+    width: 100%;
+    padding: 11px 14px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    background: #f8fafc;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  }
+
+  form p input:focus {
+    background: #ffffff;
+    border-color: var(--indigo);
+    box-shadow: 0 0 0 3px rgba(67,56,202,0.12);
+  }
+
+  form p input::placeholder {
+    color: #b0bac4;
+  }
+
+  .btn-login {
+    width: 100%;
+    padding: 13px;
+    margin-top: 6px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--indigo) 0%, #312e81 100%);
+    color: #ffffff;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 14px rgba(67,56,202,0.35);
+  }
+
+  .btn-login::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background 0.15s;
+  }
+
+  .btn-login:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(67,56,202,0.45);
+  }
+
+  .btn-login:hover::after {
+    background: rgba(255,255,255,0.06);
+  }
+
+  .btn-login:active {
+    transform: translateY(0);
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0 20px;
+  }
+
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .divider span {
+    font-size: 12px;
+    color: #94a3b8;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .card-footer {
+    text-align: center;
+    padding: 0 40px 32px;
+  }
+
+  .card-footer p {
+    font-size: 14px;
+    color: var(--slate);
+  }
+
+  .card-footer a {
+    color: var(--indigo);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.15s;
+  }
+
+  .card-footer a:hover {
+    color: var(--indigo-d);
+    text-decoration: underline;
+  }
+
+  .highlight {
+    color: var(--amber);
+    font-weight: 700;
+  }
+
+  @media (max-width: 480px) {
+    .card-header,
+    .card-body,
+    .card-footer {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
 </style>
 
 </head>
-
 <body>
 
-<div class="container">
+<div class="card">
 
-<h1>Student Login</h1>
+  <div class="card-header">
+    <div class="badge">
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="8" cy="8" r="8"/>
+      </svg>
+      Lost and Found Portal CEC
+    </div>
+    <h1>Welcome <span class="highlight">back</span></h1>
+    <p>Sign in to report or recover lost items</p>
+  </div>
 
-<form method="POST">
+  <div class="card-body">
+    <form method="POST">
 
-{% csrf_token %}
+      {% csrf_token %}
 
-{{form.as_p}}
+      {{form.as_p}}
 
-<button>
-Login
-</button>
+      <button type="submit" class="btn-login">Sign in</button>
 
-</form>
+    </form>
+  </div>
 
-<p class="bottom">
-New here?
-<a href="/signup">
-Create Account
-</a>
-</p>
+  <div class="divider" style="margin: 0 40px;">
+    <span>Don't have an account?</span>
+   
+  </div>
+
+  <div class="card-footer">
+    <p><a href="/signup">Create a new account →</a></p>
+  </div>
 
 </div>
 

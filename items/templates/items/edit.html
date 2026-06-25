@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Add Item | CEC Lost And Found</title>
+<title>Edit Item | CEC Lost And Found</title>
 
 <style>
 
@@ -42,7 +42,7 @@ box-sizing:border-box;
 button{
 width:100%;
 padding:14px;
-background:#198754;
+background:#0d6efd;
 color:white;
 border:none;
 border-radius:8px;
@@ -52,7 +52,7 @@ font-weight:bold;
 
 button:hover{
 cursor:pointer;
-background:#157347;
+background:#0b5ed7;
 }
 
 .back{
@@ -68,17 +68,6 @@ padding:15px;
 color:gray;
 }
 
-#image-preview{
-display:none;
-width:100%;
-margin-top:8px;
-margin-bottom:18px;
-border-radius:8px;
-border:1px solid #ccc;
-object-fit:contain;
-max-height:300px;
-}
-
 </style>
 
 </head>
@@ -86,8 +75,8 @@ max-height:300px;
 <body>
 
 <div class="header">
-<h1>Add Lost / Found Item</h1>
-<p>Upload details so others can find or claim it</p>
+<h1>Edit Item</h1>
+<p>Update the details of your post</p>
 </div>
 
 <div class="container">
@@ -102,10 +91,8 @@ max-height:300px;
 
 {{form.as_p}}
 
-<img id="image-preview" src="" alt="Image Preview">
-
 <button>
-Submit Item
+Save Changes
 </button>
 
 </form>
@@ -115,26 +102,6 @@ Submit Item
 <div class="footer">
 CEC Lost & Found Portal
 </div>
-
-<script>
-document.getElementById('id_image').addEventListener('change', function(event) {
-    var file = event.target.files[0];
-
-    if (!file) {
-        return;
-    }
-
-    var reader = new FileReader();
-
-    reader.onload = function(e) {
-        var preview = document.getElementById('image-preview');
-        preview.src = e.target.result;
-        preview.style.display = 'block';
-    };
-
-    reader.readAsDataURL(file);
-});
-</script>
 
 </body>
 </html>
