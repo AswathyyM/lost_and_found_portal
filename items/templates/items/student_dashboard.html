@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard | CEC Lost And Found</title>
+
+    <style>
+        body{
+            margin:0;
+            font-family:Arial;
+            background:#f4f6f9;
+            color:#172033;
+        }
+
+        .header{
+            background:#020a14;
+            color:white;
+            padding:22px;
+            text-align:center;
+        }
+
+        .nav-link{
+            display:inline-block;
+            margin:8px;
+            padding:10px 18px;
+            border-radius:6px;
+            text-decoration:none;
+            font-weight:bold;
+            background:white;
+            color:#0d6efd;
+        }
+
+        .page{
+            width:90%;
+            max-width:1100px;
+            margin:30px auto;
+        }
+
+        .summary{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            gap:16px;
+            margin-bottom:26px;
+        }
+
+        .summary-box,
+        .section{
+            background:white;
+            border-radius:10px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .summary-box{
+            padding:20px;
+        }
+
+        .summary-box h2{
+            margin:0 0 8px;
+            font-size:18px;
+            color:#475569;
+        }
+
+        .summary-box p{
+            margin:0;
+            font-size:32px;
+            font-weight:bold;
+            color:#0d6efd;
+        }
+
+        .section{
+            margin-bottom:26px;
+            padding:22px;
+        }
+
+        .section-title{
+            margin:0 0 18px;
+            font-size:24px;
+        }
+
+        .item-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:18px;
+        }
+
+        .item-card{
+            border:1px solid #e2e8f0;
+            border-radius:8px;
+            overflow:hidden;
+            background:#ffffff;
+        }
+
+        .item-card img{
+            width:100%;
+            height:170px;
+            object-fit:contain;
+            background:#e2e8f0;
+        }
+
+        .item-content{
+            padding:16px;
+        }
+
+        .item-content h3{
+            margin:0 0 8px;
+            font-size:20px;
+        }
+
+        .item-content p{
+            margin:7px 0;
+            line-height:1.4;
+        }
+
+        .badge{
+            display:inline-block;
+            padding:5px 9px;
+            border-radius:5px;
+            font-size:13px;
+            font-weight:bold;
+            background:#e0f2fe;
+            color:#075985;
+        }
+
+        .claimed{
+            background:#fee2e2;
+            color:#991b1b;
+        }
+
+        .actions{
+            margin-top:14px;
+        }
+
+        .edit,
+        .delete{
+            display:inline-block;
+            padding:8px 12px;
+            border-radius:5px;
+            text-decoration:none;
+            color:white;
+            margin-right:8px;
+        }
+
+        .edit{
+            background:#0d6efd;
+        }
+
+        .delete{
+            background:#dc3545;
+        }
+
+        .empty{
+            padding:24px;
+            text-align:center;
+            border:2px dashed #cbd5e1;
+            border-radius:8px;
+            color:#64748b;
+            background:#f9fafb;
+        }
+
+        .site-footer{
+            background-color:#1f2937;
+            color:#ffffff;
+            text-align:center;
+            padding:20px 10px;
+            margin-top:40px;
+            width:100%;
+        }
+
+        @media(max-width:640px){
+            .page{
+                width:94%;
+            }
+
+            .section{
+                padding:16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Student Dashboard</h1>
+    <p>Track your posted and claimed lost-and-found items</p>
+    <div>
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/add">+ Add Item</a>
+    </div>
+</div>
+
+<main class="page">
+    <div class="summary">
+        <div class="summary-box">
+            <h2>My Posts</h2>
+            <p>{{ my_posts|length }}</p>
+        </div>
+        <div class="summary-box">
+            <h2>Claimed Items</h2>
+            <p>{{ claimed_items|length }}</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <h2 class="section-title">My Posts</h2>
+
+        {% if my_posts %}
+        <div class="item-grid">
+            {% for item in my_posts %}
+            <article class="item-card">
+                <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                <div class="item-content">
+                    <span class="badge">{{ item.item_type }}</span>
+                    {% if item.claimed %}
+                    <span class="badge claimed">Claimed</span>
+                    {% endif %}
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.description }}</p>
+                    <p><strong>Location:</strong> {{ item.location }}</p>
+                    <p><strong>Contact:</strong> {{ item.contact }}</p>
+                    {% if item.claimed_by %}
+                    <p><strong>Claimed by:</strong> {{ item.claimed_by.username }}</p>
+                    {% endif %}
+                    <div class="actions">
+                        <a class="edit" href="/edit/{{ item.id }}/">Edit</a>
+                        <a class="delete" href="/delete/{{ item.id }}/">Delete</a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty">You have not posted any items yet.</div>
+        {% endif %}
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Claimed Items</h2>
+
+        {% if claimed_items %}
+        <div class="item-grid">
+            {% for item in claimed_items %}
+            <article class="item-card">
+                <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                <div class="item-content">
+                    <span class="badge">{{ item.item_type }}</span>
+                    <span class="badge claimed">Claimed</span>
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.description }}</p>
+                    <p><strong>Location:</strong> {{ item.location }}</p>
+                    <p><strong>Owner:</strong> {{ item.owner.username }}</p>
+                    <p><strong>Contact:</strong> {{ item.contact }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty">You have not claimed any items yet.</div>
+        {% endif %}
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div>
+        <p>College of Engineering Chengannur</p>
+        <p>&copy; 2026 CEC Lost & Found. All Rights Reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -240,8 +240,12 @@ margin-left:6px;
     <p>Find or report lost items in college</p>
     <div>
         <a class="add-btn" href="/add">+ Add Item</a>
+        {% if user.is_authenticated %}
+        <a class="login-btn" href="/dashboard">Dashboard</a>
+        {% else %}
         <a class="login-btn" href="/login">Login</a>
         <a class="signup-btn" href="/signup">Sign Up</a>
+        {% endif %}
     </div>
 </div>
 

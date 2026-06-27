@@ -47,6 +47,27 @@ def home(request):
 
 
 @login_required
+def student_dashboard(request):
+
+    my_posts=Item.objects.filter(
+        owner=request.user
+    ).order_by('-id')
+
+    claimed_items=Item.objects.filter(
+        claimed_by=request.user
+    ).order_by('-id')
+
+    return render(
+        request,
+        'items/student_dashboard.html',
+        {
+            'my_posts':my_posts,
+            'claimed_items':claimed_items
+        }
+    )
+
+
+@login_required
 def add_item(request):
 
     if request.method=='POST':

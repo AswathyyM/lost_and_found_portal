@@ -26,6 +26,76 @@ class StudentSignUpFormTests(TestCase):
         self.assertEqual(user.email, 'student@example.com')
 
 
+class StudentDashboardTests(TestCase):
+    def setUp(self):
+        self.student = User.objects.create_user(
+            username='student',
+            email='student@example.com',
+            password='password123'
+        )
+        self.other_student = User.objects.create_user(
+            username='other',
+            email='other@example.com',
+            password='password123'
+        )
+        self.my_post = Item.objects.create(
+            owner=self.student,
+            title='Student Backpack',
+            item_type='Lost',
+            description='Black backpack',
+            location='Auditorium',
+            image='items/backpack.jpg',
+            contact='1234567890'
+        )
+        self.claimed_item = Item.objects.create(
+            owner=self.other_student,
+            claimed_by=self.student,
+            title='Claimed Calculator',
+            item_type='Found',
+            description='Scientific calculator',
+            location='Lab',
+            image='items/calculator.jpg',
+            contact='1234567890',
+            claimed=True
+        )
+        self.other_post = Item.objects.create(
+            owner=self.other_student,
+            title='Other Notes',
+            item_type='Lost',
+            description='Class notes',
+            location='Library',
+            image='items/notes.jpg',
+            contact='1234567890'
+        )
+
+    def test_dashboard_requires_login(self):
+        response = self.client.get('/dashboard/')
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/signup/', response.url)
+
+    def test_dashboard_shows_student_posts_and_claims(self):
+        self.client.login(
+            username='student',
+            password='password123'
+        )
+
+        response = self.client.get('/dashboard/')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Student Backpack')
+        self.assertContains(response, 'Claimed Calculator')
+        self.assertNotContains(response, 'Other Notes')
+        self.assertQuerySetEqual(
+            response.context['my_posts'],
+            [self.my_post]
+        )
+        self.assertQuerySetEqual(
+            response.context['claimed_items'],
+            [self.claimed_item]
+        )
+
+
 @override_settings(
     EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
     DEFAULT_FROM_EMAIL='noreply@example.com',
