@@ -143,6 +143,7 @@ margin-left:6px;
     font-weight: 500;
     margin: 0;
 }
+
     </style>
 
 </head>
@@ -200,9 +201,11 @@ margin-left:6px;
 </div>
 
 {% empty %}
-
-<div class="no-items-container">
-    <p class="no-items-text">No lost/found items available</p>
+<div class="card" style="text-align:center; padding:40px 20px;">
+    <p style="font-size:2rem; margin:0;">📭</p>
+    <h2 style="color:#020a14; margin:10px 0 8px;">No Items Reported Yet</h2>
+    <p style="color:#64748b; margin:0 0 20px;">Help your fellow students — report a lost or found item.</p>
+    <a class="add-btn" href="/add" style="background:#0d6efd; color:white;">+ Add Item</a>
 </div>
 
 {% endfor %}
