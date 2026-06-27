@@ -20,12 +20,29 @@ class UserLoginView(LoginView):
 
 def home(request):
 
-    items=Item.objects.all()
+    items = Item.objects.all()
+
+    title = request.GET.get('title', '')
+    location = request.GET.get('location', '')
+
+    if title:
+        items = items.filter(
+            title__icontains=title
+        )
+
+    if location:
+        items = items.filter(
+            location__icontains=location
+        )
 
     return render(
         request,
         'items/home.html',
-        {'items':items}
+        {
+            'items': items,
+            'title': title,
+            'location': location
+        }
     )
 
 

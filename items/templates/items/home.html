@@ -123,7 +123,7 @@ margin-left:6px;
             color:white;
         }
 
-        /* Styling for the empty state container */
+/* Styling for the empty state container */
 .no-items-container {
     width: 100%;
     max-width: 500px;
@@ -142,6 +142,92 @@ margin-left:6px;
     color: #64748b;
     font-weight: 500;
     margin: 0;
+}
+
+/* Text styling for the message */
+.search-container{
+    width:min(90%,900px);
+    margin:25px auto;
+    padding:22px;
+    background:#ffffff;
+    border-radius:18px;
+    box-shadow:0 4px 6px rgba(0,0,0,.04),0 10px 25px rgba(0,0,0,.06);
+    border:1px solid #f1f5f9;
+}
+
+.search-form{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+}
+
+.search-form input{
+    flex:1 1 250px;
+    padding:14px 18px;
+    border-radius:12px;
+    border:1px solid #e2e8f0;
+    background:#f8fafc;
+    transition:.25s;
+}
+
+.search-form input:focus{
+    outline:none;
+    background:white;
+    border-color:#2563eb;
+    box-shadow:0 0 0 4px rgba(37,99,235,.12);
+}
+
+.search-btn{
+    padding:14px 24px;
+    border:none;
+    border-radius:12px;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+    box-shadow:0 6px 18px rgba(37,99,235,.25);
+    transition:.25s;
+}
+
+.search-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 28px rgba(37,99,235,.35);
+}
+
+.clear-btn{
+    padding:14px 24px;
+    border-radius:12px;
+    text-decoration:none;
+    background:#f8fafc;
+    color:#475569;
+    border:1px solid #e2e8f0;
+    transition:.25s;
+}
+
+.clear-btn:hover{
+    transform:translateY(-3px);
+    background:white;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+@media(max-width:768px){
+
+.search-container{
+    width:92%;
+    padding:18px;
+}
+
+.search-form{
+    flex-direction:column;
+}
+
+.search-form input,
+.search-btn,
+.clear-btn{
+    width:100%;
+    box-sizing:border-box;
+}
+
 }
     </style>
 
@@ -166,6 +252,35 @@ margin-left:6px;
 {% endfor %}
 </div>
 {% endif %}
+
+<div class="search-container">
+
+<form method="GET" class="search-form">
+
+<input
+name="title"
+placeholder=" Search by Title"
+value="{{title}}">
+
+
+<input
+name="location"
+placeholder=" Search by Location"
+value="{{location}}">
+
+
+<button class="search-btn">
+Search
+</button>
+
+
+<a href="/" class="clear-btn">
+Clear
+</a>
+
+</form>
+
+</div>
 
 {% for item in items %}
 <div class="card">
