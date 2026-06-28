@@ -261,60 +261,78 @@ margin-left:6px;
 
 <form method="GET" class="search-form">
 
-<input
-name="title"
-placeholder=" Search by Title"
-value="{{title}}">
+    <input
+    name="title"
+    placeholder=" Search by Title"
+    value="{{title}}">
 
+    <input
+    name="location"
+    placeholder=" Search by Location"
+    value="{{location}}">
 
-<input
-name="location"
-placeholder=" Search by Location"
-value="{{location}}">
+    <!-- The new styled Filter Dropdown fits right here -->
+    <select id="statusFilter" style="
+    padding: 0 16px; 
+    border-radius: 8px; 
+    border: 1px solid #ccc; 
+    background-color: #ffffff;
+    color: #333;
+    font-size: 14px; 
+    font-weight: 500;
+    outline: none; 
+    cursor: pointer;
+    height: 44px;
+    box-sizing: border-box;
+">
+    <option value="all">🔍  All Items</option>
+    <option value="lost">🛑 Lost Items</option>
+    <option value="found">✅ Found Items</option>
+</select>
 
+    <button class="search-btn">
+    Search
+    </button>
 
-<button class="search-btn">
-Search
-</button>
-
-
-<a href="/" class="clear-btn">
-Clear
-</a>
+    <a href="/" class="clear-btn">
+    Clear
+    </a>
 
 </form>
-
 </div>
 
+
+
+<!-- STEP 2: Your loop begins here -->
 {% for item in items %}
-<div class="card">
+<!-- We added data-status="{{ item.status|lower }}" to this line so JavaScript can read if it is lost or found -->
+<div class="card" data-status="{{ item.status|lower }}">
 
-<img src="{{item.image.url}}" width="220">
+    <img src="{{item.image.url}}" width="220">
 
-<h2>{{item.title}}</h2>
+    <h2>{{item.title}}</h2>
 
-<p>{{item.description}}</p>
+    <p>{{item.description}}</p>
 
-<p><strong>Location:</strong> {{item.location}}</p>
+    <p><strong>Location:</strong> {{item.location}}</p>
 
-{% if item.claimed %}
-<h3 class="claimed">CLAIMED</h3>
-{% else %}
-<p>Claimed By:
-{{item.claimed_by.username}}</p>
-<a
-    class="claim"
-    href="/claim/{{item.id}}"
-    onclick="return confirm('Are you sure you want to claim this item?');"
->
-    Claim Item
-</a>
-{% endif %}
+    {% if item.claimed %}
+    <h3 class="claimed">CLAIMED</h3>
+    {% else %}
+    <p>Claimed By: {{item.claimed_by.username}}</p>
+    <a
+        class="claim"
+        href="/claim/{{item.id}}"
+        onclick="return confirm('Are you sure you want to claim this item?');"
+    >
+        Claim Item
+    </a>
+    {% endif %}
 
-{% if item.owner == user %}
-<a class="edit" href="/edit/{{item.id}}/">Edit</a>
-<a class="delete" href="/delete/{{item.id}}/">Delete</a>
-{% endif %}
+    {% if item.owner == user %}
+    <a class="edit" href="/edit/{{item.id}}/">Edit</a>
+    <a class="delete" href="/delete/{{item.id}}/">Delete</a>
+    {% endif %}
 
 </div>
 
@@ -326,6 +344,26 @@ Clear
 
 {% endfor %}
 
+
+<!-- STEP 3: Put this magic JavaScript script at the very bottom of your file -->
+<script>
+    // This watches your dropdown menu. When you change the option, it runs this code:
+    document.getElementById('statusFilter').addEventListener('change', function() {
+        const selectedFilter = this.value; // This will be 'all', 'lost', or 'found'
+        const cards = document.querySelectorAll('.card'); // This grabs all your items
+
+        cards.forEach(card => {
+            const cardStatus = card.getAttribute('data-status'); // Looks at the item's status
+
+            // If you choose 'All', or if the item matches your choice, show it. Otherwise, hide it!
+            if (selectedFilter === 'all' || cardStatus === selectedFilter) {
+                card.style.display = ''; // Show item
+            } else {
+                card.style.display = 'none'; // Hide item
+            }
+        });
+    });
+</script>
 
 <!-- Footer Section -->
 <footer class="site-footer">
